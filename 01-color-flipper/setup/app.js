@@ -19,6 +19,4 @@ function updateColor() {
   return;
 }
 
-btn.addEventListener("click", function () {
-  updateColor();
-});
+btn.addEventListener("click", updateColor);
