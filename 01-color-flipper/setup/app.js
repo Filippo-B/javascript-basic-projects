@@ -4,12 +4,12 @@ const btn = document.getElementById("btn");
 const colorEl = document.getElementsByClassName("color")[0];
 const body = document.getElementsByTagName("body")[0];
 
-function randomInteger(min, max) {
-  return Math.floor(Math.random() * max + min);
+function randomInteger(n) {
+  return Math.floor(Math.random() * (n + 1));
 }
 
 function randomColorGenerator() {
-  return colors[randomInteger(0, colors.length - 1)];
+  return colors[randomInteger(colors.length - 1)];
 }
 
 function updateColor() {

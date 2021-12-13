@@ -6,12 +6,12 @@ const body = document.getElementsByTagName("body")[0];
 
 let hexColor = "#";
 
-function randomInteger(min, max) {
-  return Math.floor(Math.random() * max + min);
+function randomInteger(n) {
+  return Math.floor(Math.random() * (n + 1));
 }
 
 function randomHexCharacter() {
-  return hex[randomInteger(0, hex.length)];
+  return hex[randomInteger(hex.length - 1)];
 }
 
 function hexGenerator() {
