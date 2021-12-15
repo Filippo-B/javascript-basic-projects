@@ -17,6 +17,12 @@ dateEl.innerText = new Date().getFullYear();
 navToggle.addEventListener("click", function () {
   linksContainer.classList.toggle("show-menu");
 });
+
+scrollLinks.forEach((link) => {
+  link.addEventListener("click", function () {
+    linksContainer.classList.remove("show-menu");
+  });
+});
 // ********** fixed navbar ************
 window.addEventListener("scroll", function () {
   if (window.scrollY > desktopNavHeight) {
