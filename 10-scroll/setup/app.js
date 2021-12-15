@@ -43,6 +43,5 @@ scrollLinks.forEach((link) => {
     window.scrollBy({
       top: targetElementY - desktopNavHeight - 20,
     });
-    console.log(targetElementY - desktopNavHeight);
   });
 });
