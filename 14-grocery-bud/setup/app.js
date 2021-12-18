@@ -17,7 +17,8 @@ const deleteBtns = () => document.querySelectorAll(".delete-btn");
 /* ============================================ */
 /* ··········································· § DATA ··· */
 /* ======================================== */
-const inputCurrentValue = () => new String(input.value).replace(/<.*?>/g, "&lt;");
+
+const inputCurrentValue = () => new String(input.value).replace(/<(.*?)>/g, "&lt;$1&gt;").trim();
 const groceryListArr = [];
 
 /* ============================================ */
