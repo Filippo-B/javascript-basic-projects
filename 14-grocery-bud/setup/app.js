@@ -1,84 +1,79 @@
-// ****** SELECT ITEMS **********
+/* ============================================ */
+/* ··········································· § DOM ELEMENTS ··· */
+/* ======================================== */
 const submitBtn = document.getElementsByClassName("submit-btn")[0];
-const deleteBtn = () => document.querySelectorAll(".delete-btn");
-const alert = document.getElementsByClassName("alert")[0];
-const grocery = () => document.getElementById("grocery").value;
-const groceryList = document.getElementsByClassName("grocery-list")[0];
+const input = document.getElementById("grocery");
 const groceryContainer = document.getElementsByClassName("grocery-container")[0];
-const groceryArr = [];
-// edit option
+const groceryList = document.querySelector(".grocery-list");
+const deleteBtns = () => document.querySelectorAll(".delete-btn");
 
-// ****** EVENT LISTENERS **********
-submitBtn.addEventListener("click", function (e) {
-  e.preventDefault();
+/**
+ * iterare gli elementi dell'array
+ * creare un list item per ogni elemento
+ * aggiungere un eventlistener ai tasti edit e delete di tutti i list item
+ * La funzione dovrebbe partire ogni volta che l'array cambia
+ */
 
-  // if grocery is not empty
-  if (grocery() !== "") {
-    showAlert("addItem");
-    addGroceryItem(grocery());
-  } else {
-    showAlert("empty");
-  }
-  containerVisibility();
+/* ============================================ */
+/* ··········································· § DATA ··· */
+/* ======================================== */
+const inputCurrentValue = () => new String(input.value).replace(/<.*?>/g, "&lt;");
+const groceryListArr = [];
 
-  deleteBtn().forEach((deleteButton) => {
-    deleteButton.addEventListener("click", function () {
-      showAlert("removeItem");
-    });
-  });
-});
-
-// ****** FUNCTIONS **********
-function resetAlert() {
-  alert.classList.remove("alert-danger", "alert-success");
-  alert.innerText = "";
+/* ============================================ */
+/* ··········································· § GROCERY LIST ··· */
+/* ======================================== */
+function listItem(item) {
+  return `<article class="grocery-item" data-item="${item}">
+          <p class="title">${item}</p>
+          <div class="btn-container">
+            <button type="button" class="edit-btn">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button type="button" class="delete-btn">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        </article>`;
 }
-function alertContent(className, text) {
-  if (alert.classList.contains("alert-danger") || alert.classList.contains("alert-success")) {
-    resetAlert();
-  }
-  alert.classList.add(className);
-  alert.innerText = text;
-
-  const timeout = setTimeout(function () {
-    resetAlert();
-  }, 2000);
-}
-
-function showAlert(action) {
-  if (action === "addItem") {
-    alertContent("alert-success", "Item added to the list");
-  } else if (action === "removeItem") {
-    alertContent("alert-danger", "Item removed from the list");
-  } else if (action === "empty") {
-    alertContent("alert-danger", "The field is empty!");
+function groceryListOutput() {
+  groceryList.innerHTML = "";
+  for (let groceryItem of groceryListArr) {
+    groceryList.insertAdjacentHTML("beforeend", listItem(groceryItem));
   }
 }
 
-function containerVisibility() {
-  if (groceryArr.length > 0) {
+/* =================================== § CHECK VISIBILITY CONTAINER === */
+function groceryContainerVisibility() {
+  if (groceryListArr.length > 0) {
     groceryContainer.classList.add("show-container");
   } else {
     groceryContainer.classList.remove("show-container");
   }
 }
 
-function addGroceryItem(itemName) {
-  const item = `<article class="grocery-item">
-              <p class="title">${itemName}</p>
-              <div class="btn-container">
-                <button type="button" class="edit-btn">
-                  <i class="fas fa-edit"></i>
-                </button>
-                <button type="button" class="delete-btn">
-                  <i class="fas fa-trash"></i>
-                </button>
-              </div>
-            </article>`;
-  groceryArr.push(item);
-  groceryList.innerHTML = groceryArr.join("");
+function listItemsEventListeners() {
+  deleteBtns().forEach((deleteBtn) => {
+    deleteBtn.addEventListener("click", function () {
+      thisId = deleteBtn.closest(".grocery-item").getAttribute("data-item");
+      thisIndex = groceryListArr.findIndex((el) => el === thisId);
+      groceryListArr.splice(thisIndex, 1);
+      update();
+    });
+  });
 }
 
-// ****** LOCAL STORAGE **********
+function update() {
+  groceryContainerVisibility();
+  groceryListOutput();
+  listItemsEventListeners();
+}
 
-// ****** SETUP ITEMS **********
+/* ============================================ */
+/* ··········································· § EVENT LISTENERS ··· */
+/* ======================================== */
+submitBtn.addEventListener("click", function (e) {
+  e.preventDefault();
+  groceryListArr.push(inputCurrentValue());
+  update();
+});
