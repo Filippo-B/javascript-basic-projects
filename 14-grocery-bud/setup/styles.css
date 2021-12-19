@@ -201,7 +201,14 @@ Grocery List
   border-radius: 0.25rem;
   letter-spacing: var(--spacing);
   text-transform: capitalize;
+  opacity: 0;
 }
+
+.alert-danger,
+.alert-success {
+  opacity: 100%;
+}
+
 .alert-danger {
   color: #721c24;
   background: #f8d7da;
