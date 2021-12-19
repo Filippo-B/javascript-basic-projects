@@ -265,10 +265,12 @@ Grocery List
 .grocery-container {
   margin-top: 2rem;
   transition: var(--transition);
-  visibility: hidden;
+  /* visibility: hidden; */
+  display: none;
 }
 .show-container {
-  visibility: visible;
+  /* visibility: visible; */
+  display: block;
 }
 .grocery-item {
   display: flex;
